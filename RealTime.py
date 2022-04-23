@@ -152,10 +152,12 @@ def updateDisturbance(text):
 # Utility for getting the saturation velocity
 
 
-def getSaturationVelocity(T, V, tol=1e-6):
-    for i in range(len(T) - 1):
+def getSaturationVelocity(T, V, tol=1e-5):
+    for i in range(len(T) - 2, -1, -1):
         if abs((V[i+1] - V[i])/V[i+1]) < tol:
-            return V[i+1], T[i+1]
+            for j in range(i, -1, -1):
+                if abs((V[j+1] - V[j])/V[j+1]) > tol:
+                    return V[j+1], T[j+1]
     return None, None
 
 #########################################################################
